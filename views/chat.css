@@ -1,0 +1,103 @@
+html,body{
+    width:100%;
+    height:100%;
+}
+
+body{
+    position:relative;
+
+
+}
+
+#wrapper{
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    border:1px solid #333;      
+}
+
+#upperPanel{
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:100px;
+}
+
+#chat{
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:200px; 
+    background:#666;  
+    overflow:auto;    
+}
+
+#friends{
+    position: absolute;
+    top:0;
+    bottom:0;
+    width:200px;
+    right:0; 
+    background:#999; 
+    overflow:auto;   
+}
+
+#friends ul{
+    text-align:right;
+}
+
+#bottomPanel{
+    height: 100px;
+    background:#EEE;
+    position:absolute;
+    bottom:0px;
+    left:0px;
+    right:0px;
+}
+
+/* #bottomPanel textarea{ */
+/*     position:absolute; */
+/*     top:10px; */
+/*     bottom:10px; */
+/*     left:10px; */
+/*     right:10px;  */
+/*     resize: none; */
+/* } */
+
+/* #bottomPanel input[type=submit]{ */
+/*     position:absolute; */
+/*     top:10px; */
+/*     bottom:10px; */
+/*      right:10px; */
+/*      left:30px; */
+/*     width:100px; */
+/* } */
+
+#messagePanel {
+	float: left;
+}
+
+#messagePanel textarea{
+	resize: none;
+	height:80px;
+	float:left;
+	width:800px;
+}
+
+#messagePanel input[type=submit]{
+	width:50px;
+	height:80px;
+	float:right;
+}
+
+#signInPanel {
+	float:right;
+}
+
+#signInPanel input[type=text] {
+	width:130px;
+}

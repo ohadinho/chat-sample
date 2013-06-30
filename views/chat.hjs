@@ -1,0 +1,102 @@
+<html>
+  <head>
+  	<link rel='stylesheet' href='/stylesheets/chat.css' />
+  </head>
+  <body>
+  	<script src="/socket.io/socket.io.js"></script>
+  	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  	<script type="text/javascript">  	  	
+  	
+  	// our websocket
+	var socket = io.connect();
+	var userName;
+  	
+  	function onLogInLogOutClick() {  	    
+  	    	userName = document.getElementById("txtUserName").value;    		
+  	    		  		
+			// get button text
+			var btnLogInLogOut = document.getElementById('btnLogInLogOut');
+			var txtBtnLogInLogOut = btnLogInLogOut.textContent || btnLogInLogOut.innerText;
+			if(txtBtnLogInLogOut == 'LogIn') {
+  	     		// send join message
+  	  			socket.emit('join', userName);
+				btnLogInLogOut.innerText = 'LogOut';
+				document.getElementById('btnSendMessage').disabled = false;
+			}
+			else {
+				btnLogInLogOut.innerText = 'LogIn';
+				document.getElementById('btnSendMessage').disabled = true;				
+				socket.emit('leave');
+			}  	    		  	  		
+  	      }
+  	    	
+  	function onSendMessageClick() {
+  	    	var messageText = document.getElementById("txtUserMessage").value;
+  	    	socket.emit('send',userName, messageText);
+  	      }
+  	
+  	socket.on('message', function(userName, messageText) {
+  				document.getElementById("txtUserMessage").value = '';
+  				var ulChat = document.getElementById('chat');
+  	  	  	  	var li = document.createElement('li');
+  	  	  	  	var userSpan = document.createElement('span');
+  	  	  	  	userSpan.style.color = 'red';
+  	  	  	  	userSpan.innerHTML = userName + ': ';
+  	  	  	  	var messageSpan = document.createElement('span');
+  	  	  	  	messageSpan.innerHTML = messageText;
+  	  	  	  	li.appendChild(userSpan);
+  	  	  	  	li.appendChild(messageSpan);
+  	  	  	  	ulChat.appendChild(li);
+  	});
+
+	socket.on('firstLogin', function(data) {
+	
+		var ulFriends = document.getElementById('friends');
+		ulFriends.innerHTML = '';
+		for (i in data) {								
+				addUserToList(ulFriends, data[i]);	
+		}			
+	});
+	
+	socket.on('addConnectedUser', function(data) {
+				var ulFriends = document.getElementById('friends');
+				addUserToList(ulFriends, data);			
+	});
+	
+	function addUserToList(ulFriends, userName) {
+		var li = document.createElement('li');
+		li.appendChild(document.createTextNode(userName));
+		li.setAttribute('id','user-' + userName);
+		ulFriends.appendChild(li);
+	}
+
+	socket.on('logout', function(data) {
+			var user = document.getElementById('user-' + data);
+			user.parentNode.removeChild(user);				
+	});
+	
+  	</script>  	
+	<div id="wrapper">
+	    <div id="upperPanel">
+	        <div>
+	            <ul id="chat">
+	            </ul>
+	        </div>
+	        <div>
+	        	<ul id="friends">
+	        	</ul>
+	        </div>
+	    </div>
+	    <div id="bottomPanel">
+	    	<div id="messagePanel" style="float:left">
+		        <textarea id="txtUserMessage" style="resize:none;height:80px;float:left;width:800px;"></textarea>
+		        <input id="btnSendMessage" onclick="onSendMessageClick()" type="submit" style="width:50px;height:80px;float:right;" disabled="disabled" value="send" />
+	        </div>
+	        <div id="signInPanel" style="float:right">
+	        	<input id="txtUserName" style="width:130px;" type="text" name="userName"/>
+	        	<button id="btnLogInLogOut" onclick="onLogInLogOutClick()">LogIn</button>
+	        </div>
+	    </div>
+	</div>
+ </body>
+</html>​​​​​​​​​​​​​
