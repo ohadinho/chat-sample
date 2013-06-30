@@ -1,4 +1,5 @@
 # chat-sample
+Chat application using node.js server and socket.io module
 
 ## Objective
 Demonstrate the usage of node.js and socket.io
