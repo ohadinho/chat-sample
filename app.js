@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -54,6 +53,7 @@ io.sockets.on('connection', function (socket) {
 		socket.userName = userNameParam; // save the user name inside the socket
 		socket.emit('firstLogin',users); // when a user login first, call 'firstLogin' only in that client socket
 		socket.broadcast.to('chatchannel').emit('addConnectedUser',userNameParam); // tells everyone except that user that a new user has been connected
+		io.sockets.in('chatchannel').emit('message',userNameParam, 'I am connected !'); // tells every client that the user connected
 	});
 	
 	socket.on('leave', onUserDisconnected);
@@ -63,6 +63,7 @@ io.sockets.on('connection', function (socket) {
 	function onUserDisconnected() {
 	    delete users[socket.userName]; // removing the user from users list
 	    io.sockets.in('chatchannel').emit('logout',socket.userName); // call logout event on client
+	    io.sockets.in('chatchannel').emit('message',socket.userName, 'I am disconnected !'); // tells every client that the user disconnected
 	    socket.leave('chatchannel'); // leaving socket.io 'chatchannel' room
 	}
 	
