@@ -1,19 +1,15 @@
-var logger;
-
-module.exports = function(app, loggerInstance) {
-  logger = loggerInstance;
+module.exports = function(app) {
   app.get('/', index);
   app.get('/chat',chat);
 };
 
 var index = function(req, res){
-    logger.info('GET on /\n');
     res.render('index', { title: 'Express' });    
 };
 
 
 
-var chat = function(req, res){ 
-    logger.info('GET on /chat\n');
+var chat = function(req, res){
     res.render('chat');
+	res.render('chat', { sessionId: req.session.id});
 };

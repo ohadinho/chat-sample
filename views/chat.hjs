@@ -96,6 +96,11 @@
 	        	<input id="txtUserName" style="width:130px;" type="text" name="userName"/>
 	        	<button id="btnLogInLogOut" onclick="onLogInLogOutClick()">LogIn</button>
 	        </div>
+	        <br/>
+	        <br/>
+	        <div id="sessionId" style="float:right">
+	        Session Id: {{sessionId}}
+	        </div>
 	    </div>
 	</div>
  </body>

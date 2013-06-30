@@ -6,23 +6,18 @@
 var express = require('express')
   , http = require('http')
   , path = require('path')
-  , redis = require('redis')
   , socketio = require('socket.io')  // library for realtime web applications based on WebSocket protocol
-  , logger = require('winston'); // logging library
 
 var app = express()
 , server = http.createServer(app)
 , io = socketio.listen(server);
-
-logger.add(logger.transports.File, { filename: __dirname + '/logs/chat.log' });
-logger.remove(logger.transports.Console);
 
 app.configure(function(){
     app.set('port', process.env.PORT || 3000);
     app.set('views', __dirname + '/views');
     app.set('view engine', 'hjs');
     app.use(express.favicon());
-    //app.use(express.logger('dev')); // Express logger
+    app.use(express.logger('dev')); // Express logger
     app.use(express.bodyParser());
     app.use(express.methodOverride());
     app.use(express.cookieParser()); // To parse cookies
@@ -37,7 +32,6 @@ app.configure('development', function(){
 
 server.listen(app.get('port'), function(){
     console.log("Express server listening on port " + app.get('port'));  
-    logger.info('Express server listening on port ' + app.get('port') + '\n');
 });
 
 
@@ -77,4 +71,4 @@ io.sockets.on('connection', function (socket) {
 	});
 });
 	
-require('./routes')(app, logger);
+require('./routes')(app);
